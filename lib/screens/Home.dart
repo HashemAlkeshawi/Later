@@ -1,9 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:expendable_fab/expendable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:later/widgets/Widgets_Util.dart/values.dart';
 import 'package:later/widgets/bottomNavBar.dart';
 import 'package:later/widgets/postSummary.dart';
+
+import '../widgets/Widgets_Util.dart/AppRouter.dart';
+import '../widgets/floatingActBtn.dart';
 
 class Home extends StatelessWidget {
   static const String screenName = "Home";
@@ -19,12 +23,13 @@ class Home extends StatelessWidget {
           style: const TextStyle(color: Colors.white),
         ),
       ),
+      floatingActionButton: floatingActBtn(),
       body: Container(
           margin: EdgeInsets.only(top: 12.h, left: 20.w, right: 20.w),
-          child: Column(
+          child: ListView(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 22.h),
+                padding: EdgeInsets.symmetric(vertical: 20.h),
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20.0),
@@ -59,7 +64,7 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 30.h),
+                          padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.facebookSecondaryColor,
                           child: const Center(
                             child: Text("3"),
@@ -88,7 +93,7 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 30.h),
+                          padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.instagramSecondaryColor,
                           child: const Center(
                             child: Text("5"),
@@ -117,7 +122,7 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 30.h),
+                          padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.twitterSecondaryColor,
                           child: const Center(
                             child: Text("2"),
@@ -129,7 +134,9 @@ class Home extends StatelessWidget {
                 ],
               ),
               Container(
-                height: 355.h,
+                // color: Colors.red,
+                margin: EdgeInsets.only(top: 8.h),
+                height: 375.h,
                 child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: 4,

@@ -4,13 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 postSummary(int index, {required bool topBorderRadios}) {
   return Container(
-    margin: EdgeInsets.only(top: 1.h, right: 25.w),
-    height: 350.h,
-    width: 480.w,
+    margin: EdgeInsets.only(top: 1.h, right: 12.w),
+    width: 460.w,
     child: Stack(
       alignment: AlignmentDirectional.topStart,
       children: [
         Container(
+          height: 360.h,
+          margin: EdgeInsets.only(left: 4.h),
           padding: EdgeInsets.symmetric(horizontal: 18.w),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -22,8 +23,8 @@ postSummary(int index, {required bool topBorderRadios}) {
             boxShadow: const [
               BoxShadow(
                 color: Colors.grey,
-                spreadRadius: 5,
-                blurRadius: 6,
+                spreadRadius: 2,
+                blurRadius: 2,
                 offset: Offset(0, 2), // changes position of shadow
               ),
             ],

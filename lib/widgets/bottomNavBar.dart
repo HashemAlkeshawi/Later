@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:later/AppRouter.dart';
+import 'package:later/widgets/Widgets_Util.dart/AppRouter.dart';
 import 'package:later/screens/Home.dart';
+import 'package:later/widgets/Widgets_Util.dart/values.dart';
+
+import '../screens/PostsScreen.dart';
 
 BottomNavBar(double screenWidth, String screenName) {
   String? homeActivity = '_';
@@ -11,6 +14,7 @@ BottomNavBar(double screenWidth, String screenName) {
       ? homeActivity = 'Active'
       : postsActivity = 'Active';
   return Container(
+    color: Colors.transparent,
     height: 110.h,
     child: Stack(
       alignment: AlignmentDirectional.bottomStart,
@@ -31,9 +35,9 @@ BottomNavBar(double screenWidth, String screenName) {
             ],
           ),
           child: InkWell(
-            // onTap: () => screenName == PostsScreen.screenName
-            //     ? {}
-            //     : AppRouter.navigateWithReplacemtnToWidget(PostsScreen()),
+            onTap: () => screenName == PostsScreen.screenName
+                ? {}
+                : AppRouter.navigateWithReplacemtnToWidget(PostsScreen()),
             child: Row(
               children: [
                 Spacer(),
@@ -42,7 +46,13 @@ BottomNavBar(double screenWidth, String screenName) {
                 SizedBox(
                   width: 12.w,
                 ),
-                Text("All Posts".tr()),
+                Text(
+                  "All Posts".tr(),
+                  style: TextStyle(
+                      color: screenName == PostsScreen.screenName
+                          ? LaterColors.mainColor
+                          : Colors.grey[700]),
+                ),
                 // )
               ],
             ),

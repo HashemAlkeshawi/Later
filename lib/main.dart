@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'AppRouter.dart';
+import 'widgets/Widgets_Util.dart/AppRouter.dart';
 import 'screens/Home.dart';
 
 void main() async {
