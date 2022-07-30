@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/Data/database/db_helper.dart';
+import 'package:provider/provider.dart';
 
 import 'widgets/Widgets_Util.dart/AppRouter.dart';
 import 'screens/Home.dart';
@@ -27,13 +29,16 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
-          navigatorKey: AppRouter.navKey,
-          debugShowCheckedModeBanner: false,
-          localizationsDelegates: context.localizationDelegates,
-          supportedLocales: context.supportedLocales,
-          locale: context.locale,
-          home: Home(),
+        return ChangeNotifierProvider<DbHelper>(
+          create: (context) => DbHelper().initDatabase(),
+          child: MaterialApp(
+            navigatorKey: AppRouter.navKey,
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            home: Home(),
+          ),
         );
       },
     );

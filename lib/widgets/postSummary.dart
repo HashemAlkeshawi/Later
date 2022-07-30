@@ -46,6 +46,7 @@ postSummary(int index, {required bool topBorderRadios}) {
                   ],
                 ),
               ),
+
               SizedBox(
                 height: 250.h,
                 child: Image.asset(

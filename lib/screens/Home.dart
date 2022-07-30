@@ -25,11 +25,11 @@ class Home extends StatelessWidget {
       ),
       floatingActionButton: floatingActBtn(),
       body: Container(
-          margin: EdgeInsets.only(top: 12.h, left: 20.w, right: 20.w),
-          child: ListView(
+          margin: EdgeInsets.only(top: 10.h, left: 20.w, right: 20.w),
+          child: Column(
             children: [
               Container(
-                padding: EdgeInsets.symmetric(vertical: 20.h),
+                padding: EdgeInsets.symmetric(vertical: 18.h),
                 decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20.0),

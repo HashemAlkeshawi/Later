@@ -110,19 +110,19 @@ class PostsScreen extends StatelessWidget {
                                     child: Icon(
                                       Icons.delete,
                                       color: Colors.white,
-                                      size: 60.r,
+                                      size: 80.r,
                                     ),
                                   );
                                 } else if (direction ==
                                     SwipeDirection.startToEnd) {
                                   return Container(
-                                    padding: EdgeInsets.only(left: 260.w),
+                                    padding: EdgeInsets.only(right: 260.w),
                                     height: screnHeight - 210.h,
                                     color: Colors.greenAccent,
                                     child: Icon(
                                       Icons.edit,
-                                      color: Colors.greenAccent,
-                                      size: 60.r,
+                                      color: Colors.white,
+                                      size: 80.r,
                                     ),
                                   );
                                 }

@@ -16,4 +16,8 @@ class AppRouter {
       return widget;
     }));
   }
+
+  static popFromWidget() {
+    Navigator.of(navKey.currentContext!).pop();
+  }
 }
