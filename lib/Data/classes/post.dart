@@ -34,12 +34,12 @@ class Post {
     feeling = map[PostsTable.feelingColumName];
   }
 
-  toMap() {
+  toMap() async {
     Map<String, dynamic> postInMap = {
       PostsTable.contentColumName: content,
       PostsTable.creationTimeColumName: creationTime.toString(),
       PostsTable.dueOnColumName: dueOn.toString(),
-      PostsTable.imagePathColumName: selectedmagePath(image),
+      PostsTable.imagePathColumName: await selectedmagePath(image),
       PostsTable.isTimedColumName: isTimed ? 1 : 0,
       PostsTable.typeColumName: type,
       PostsTable.feelingColumName: feeling
@@ -88,5 +88,16 @@ class Post {
         return 'assets/images/twitter.png';
     }
     return '';
+  }
+
+  properContent() {
+    String? properContent;
+    content == null
+        ? properContent = ''
+        : content!.length > 60
+            ? properContent = "${content!.substring(0, 59)}.."
+            : properContent = content;
+
+    return properContent;
   }
 }

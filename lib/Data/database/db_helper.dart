@@ -1,17 +1,24 @@
 import 'package:flutter/cupertino.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart';
 import '../classes/post.dart';
 
 class DbHelper extends ChangeNotifier {
+  List<Post>? posts = [];
+  List<Post>? posts_due_soon = [];
+  Database? _database;
+
   DbHelper() {
+    print('constructor called');
     initDatabase();
   }
-  Database? database;
   initDatabase() async {
     print("initiated");
-    database = await createConnectionWithDatabase();
+    _database = await createConnectionWithDatabase();
+    selectAllPosts();
+
+    notifyListeners();
   }
 
   Future<Database> createConnectionWithDatabase() async {
@@ -38,6 +45,7 @@ class DbHelper extends ChangeNotifier {
       final tables =
           await db.rawQuery('SELECT name FROM sqlite_master ORDER BY name;');
       print(tables.toString());
+      print('onOpen!');
     });
     return database;
   }
@@ -46,37 +54,55 @@ class DbHelper extends ChangeNotifier {
 
   insertNewPost(Post post) async {
     int rowIndex =
-        await database!.insert(PostsTable.postsTableName, post.toMap());
+        await _database!.insert(PostsTable.postsTableName, await post.toMap());
     print(rowIndex.toString());
+    selectAllPosts();
   }
 
-  Future<List<Post>> selectAllPosts() async {
-    List<Map<String, Object?>> rowsAsMaps = await database!.query(
-        PostsTable.postsTableName,
-        where: '${PostsTable.typeColumName}=?',
-        whereArgs: [1]);
-    List<Post> posts = rowsAsMaps.map((e) => Post.fromMap(e)).toList();
-    return posts;
+  selectAllPosts() async {
+    List<Map<String, Object?>> rowsAsMaps = await _database!.query(
+      PostsTable.postsTableName,
+    );
+
+    posts = rowsAsMaps.map((e) => Post.fromMap(e)).toList();
+    dueSoonPosts();
+    notifyListeners();
   }
 
   selectOnePost(int id) {
-    database!.query(PostsTable.postsTableName,
+    _database!.query(PostsTable.postsTableName,
         where: '${PostsTable.idColumName}=?', whereArgs: [id]);
   }
 
   updateOnePost(Post post) async {
-    int count = await database!.update(PostsTable.idColumName, post.toMap(),
+    int count = await _database!.update(PostsTable.idColumName, post.toMap(),
         where: '${PostsTable.idColumName}=?', whereArgs: [post.id]);
     print(count.toString());
   }
 
   deleteOnePost(int id) {
-    database!.delete(PostsTable.postsTableName,
+    _database!.delete(PostsTable.postsTableName,
         where: '${PostsTable.idColumName}=?', whereArgs: [id]);
+    selectAllPosts();
   }
   //--------------------------------------------------
   // POSTS CRUID ---------------------------------------
 
+  dueSoonPosts() {
+    List<Post> listOfPosts_ = posts!.where((element) {
+      return element.isTimed;
+    }).toList();
+
+    listOfPosts_.sort(((a, b) {
+      return a.dueOn!.compareTo(b.dueOn!);
+    }));
+
+    listOfPosts_.length > 4
+        ? listOfPosts_ = listOfPosts_.sublist(0, 4)
+        : listOfPosts_ = listOfPosts_;
+
+    posts_due_soon = listOfPosts_;
+  }
 }
 
 class PostsTable {

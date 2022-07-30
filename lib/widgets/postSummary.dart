@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/widgets/Widgets_Util.dart/decision_widgets.dart';
 
-postSummary(int index, {required bool topBorderRadios}) {
+import '../Data/classes/post.dart';
+
+postSummary({required Post post, required bool topBorderRadios}) {
   return Container(
     margin: EdgeInsets.only(top: 1.h, right: 12.w),
     width: 460.w,
@@ -32,34 +35,16 @@ postSummary(int index, {required bool topBorderRadios}) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.w),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset('assets/icons/sandClock.png'),
-                    SizedBox(
-                      width: 12.w,
-                    ),
-                    Text("Due on".tr()),
-                    const Text("2d, 3h, 26m"),
-                  ],
-                ),
-              ),
-
+              showIfTimed(post),
               SizedBox(
-                height: 250.h,
-                child: Image.asset(
-                  'assets/images/sample.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
+                  height: 250.h,
+                  child: postSummaryImage(post.image!, post.type)),
 
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 22.w),
                   child: Row(
                     children: [
-                      Text("This is the content".tr()),
+                      Text(post.properContent()),
                     ],
                   )),
               // )
@@ -69,13 +54,7 @@ postSummary(int index, {required bool topBorderRadios}) {
         Container(
           margin: EdgeInsets.fromLTRB(0, 10.h, 20.w, 0),
           child: Row(
-            children: [
-              const Spacer(),
-              Image.asset(
-                'assets/images/facebook.png',
-                fit: BoxFit.fitHeight,
-              ),
-            ],
+            children: [const Spacer(), selectImageByType(post.type)],
           ),
         ),
       ],

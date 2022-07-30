@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:later/screens/Facebook/Facebook_create.dart';
 
 class AppRouter {
   static GlobalKey<NavigatorState> navKey = GlobalKey<NavigatorState>();
@@ -9,6 +10,18 @@ class AppRouter {
     }));
     return x;
   }
+
+  // staticnavigateToWidgetFromType(int type, post) async {
+  //   Navigator.of(navKey.currentContext!)
+  //       .push(MaterialPageRoute(builder: (context) {
+  //         switch(type){
+  //           case 1: return  FacePost(post);
+  //           case 2:return  InstaPost(post);
+  //           case 3:return  TwitterTweet(post);
+  //         }
+  //    return  FaceCreate();
+  //   }));
+  // }
 
   static navigateWithReplacemtnToWidget(Widget widget) {
     Navigator.of(navKey.currentContext!)

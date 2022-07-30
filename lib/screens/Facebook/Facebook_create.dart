@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 
 import '../../Data/classes/feelings.dart';
 import '../../Data/classes/post.dart';
@@ -44,8 +43,7 @@ class _FaceCreateState extends State<FaceCreate> {
 
                 showDialog(
                     context: context,
-                    builder: (context) =>
-                        showSaveAlert(post, selectedImage, context));
+                    builder: (context) => showSaveAlert(post, context));
               },
               icon: Icon(
                 Icons.done,

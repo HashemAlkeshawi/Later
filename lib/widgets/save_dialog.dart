@@ -10,7 +10,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../Data/classes/post.dart';
 import 'Widgets_Util.dart/AppRouter.dart';
 
-showSaveAlert(Post post, File? selectedImage, BuildContext context) {
+showSaveAlert(Post post, BuildContext context) {
   return AlertDialog(
     title: Text("alertSave".tr()),
     actions: [
@@ -24,7 +24,7 @@ showSaveAlert(Post post, File? selectedImage, BuildContext context) {
         child: const Text("Skip & Save"),
       ),
       TextButton(
-        onPressed: () => setDateTime(context, post, selectedImage),
+        onPressed: () => setDateTime(context, post),
         child: const Text("Set"),
       ),
     ],
@@ -38,7 +38,7 @@ savePost(Post post, BuildContext context) async {
   Navigator.pop(context);
 }
 
-void setDateTime(BuildContext context, Post post, File? selectedImage) {
+void setDateTime(BuildContext context, Post post) async {
   DatePicker.showDateTimePicker(context,
       showTitleActions: true,
       minTime: DateTime.now(),
@@ -47,8 +47,6 @@ void setDateTime(BuildContext context, Post post, File? selectedImage) {
     post.dueOn = date;
     post.isTimed = true;
     savePost(post, context);
-    Navigator.pop(context);
-    Navigator.pop(context);
     print('confirm $date');
   }, currentTime: DateTime.now(), locale: LocaleType.en);
 }

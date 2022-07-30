@@ -1,28 +1,44 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/Data/database/db_helper.dart';
 import 'package:later/widgets/bottomNavBar.dart';
 import 'package:later/widgets/postSummary.dart';
+import 'package:provider/provider.dart';
 import 'package:swipeable_tile/swipeable_tile.dart';
 
+import '../Data/classes/categories.dart';
+import '../Data/classes/post.dart';
+import '../widgets/Widgets_Util.dart/AppRouter.dart';
 import '../widgets/floatingActBtn.dart';
 
-class PostsScreen extends StatelessWidget {
+class PostsScreen extends StatefulWidget {
   static const String screenName = "PostsScreen";
 
-// temporary ...................
-  List<String> catigories = [
-    ('All'),
-    ('facebook'),
-    ('instagram'),
-    ('twitter'),
+  @override
+  State<PostsScreen> createState() => _PostsScreenState();
+}
+
+class _PostsScreenState extends State<PostsScreen> {
+  Category? selectedCategorie;
+
+  // List<Post> list = [];
+
+  // posts() async {
+  //   list = await Provider.of<DbHelper>(context).selectAllPosts();
+  // }
+
+  List<Category> categories = [
+    Category('All'),
+    Category('facebook'),
+    Category('instagram'),
+    Category('twitter'),
   ];
-///////.............
+
   @override
   Widget build(BuildContext context) {
     double screnHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
         // floatingActionButton: floatingActBtn(),
         appBar: AppBar(
@@ -42,59 +58,61 @@ class PostsScreen extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: 100.h,
-                    // child: DropdownButton<Catigory>(
-                    child: DropdownButton<Object>(
+                    child: DropdownButton<Category>(
                         hint: ListTile(
-                          // title: Text(catigories.first.catigoryName!),
-                          title: Text("This is the catigory name"),
+                          title: Text(categories.first.categoryName!),
                           leading: CircleAvatar(
                             backgroundColor: Colors.transparent,
                             child: Image.asset(
-                                // 'assets/images/${catigories.first.catigoryName}.png'),
-                                'assets/images/facebook.png'),
+                                'assets/images/${categories.first.categoryName}.png'),
                           ),
                         ),
                         isExpanded: true,
                         underline: const SizedBox(),
-                        // value: selectedCatigory,
-                        items: catigories.map((e) {
-                          return DropdownMenuItem<Object>(
+                        value: selectedCategorie,
+                        items: categories.map((e) {
+                          return DropdownMenuItem<Category>(
                             value: e,
                             child: ListTile(
-                              title: Text(e),
+                              title: Text(e.categoryName!),
                               leading: CircleAvatar(
                                 backgroundColor: Colors.transparent,
-                                child: Image.asset('assets/images/${e}.png'),
+                                child: Image.asset(
+                                    'assets/images/${e.categoryName}.png'),
                               ),
                             ),
                           );
                         }).toList(),
                         onChanged: (v) {
-                          // selectedCatigory = v;
+                          selectedCategorie = v;
                           // posts = categorize(listOfPosts_, posts!, selectedCatigory!);
 
                           // setState(() {});
                         }),
                   ),
-                  SizedBox(
+                  Container(
                     height: screnHeight - 220.h,
+                    padding: EdgeInsets.only(bottom: 60.h),
                     child: ListView.builder(
-                      // controller: ScrollController(keepScrollOffset: false),
+                      // reverse: true,
+                      controller: ScrollController(keepScrollOffset: false),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        // dynamic post = posts![index];
+                        Post post =
+                            Provider.of<DbHelper>(context).posts![index];
                         return InkWell(
                             onTap: () {
-                              // AppRouter.NavigateToWidget(selectType(post));
-                              // AppRouter.NavigateToWidget(selectType(post));
+                              print(post.content ?? "nothing");
+                              // AppRouter.navigateToWidget(selectType(post));
                             },
                             child: SwipeableTile.swipeToTrigger(
                               color: Colors.white,
                               swipeThreshold: 0.5,
                               direction: SwipeDirection.horizontal,
-                              // direction: SwipeDirection.endToStart,
                               onSwiped: (direction) {
                                 if (direction == SwipeDirection.endToStart) {
+                                  Provider.of<DbHelper>(context, listen: false)
+                                      .deleteOnePost(post.id!);
                                   print('delete');
                                 } else {
                                   print('edit');
@@ -134,18 +152,17 @@ class PostsScreen extends StatelessWidget {
                                   margin: EdgeInsets.only(
                                       bottom: 20.h, left: 15.w, right: 15.w),
                                   width: screenWidth,
-                                  child: postSummary(index,
-                                      topBorderRadios: true)),
+                                  child: postSummary(
+                                      post: post, topBorderRadios: true)),
                             ));
                       },
-                      // itemCount: posts!.length,
-                      itemCount: 5,
+                      itemCount: Provider.of<DbHelper>(context).posts!.length,
                     ),
                   ),
                 ],
               ),
             ),
-            BottomNavBar(screenWidth, screenName),
+            BottomNavBar(screenWidth, PostsScreen.screenName),
           ],
         ));
     // bottomNavigationBar: BottomNavBar(screenWidth, screenName));

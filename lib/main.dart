@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return ChangeNotifierProvider<DbHelper>(
-          create: (context) => DbHelper().initDatabase(),
+          create: (context) => DbHelper(),
           child: MaterialApp(
             navigatorKey: AppRouter.navKey,
             debugShowCheckedModeBanner: false,

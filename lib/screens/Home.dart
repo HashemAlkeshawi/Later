@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:expendable_fab/expendable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/Data/database/db_helper.dart';
 import 'package:later/widgets/Widgets_Util.dart/values.dart';
 import 'package:later/widgets/bottomNavBar.dart';
 import 'package:later/widgets/postSummary.dart';
-
-import '../widgets/Widgets_Util.dart/AppRouter.dart';
+import 'package:provider/provider.dart';
+import '../Data/classes/post.dart';
 import '../widgets/floatingActBtn.dart';
 
 class Home extends StatelessWidget {
@@ -139,10 +139,14 @@ class Home extends StatelessWidget {
                 height: 375.h,
                 child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: 4,
+                    itemCount:
+                        Provider.of<DbHelper>(context).posts_due_soon!.length,
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) =>
-                        postSummary(1, topBorderRadios: false)),
+                    itemBuilder: (context, index) {
+                      Post post =
+                          Provider.of<DbHelper>(context).posts_due_soon![index];
+                      return postSummary(post: post, topBorderRadios: false);
+                    }),
               ),
             ],
           )),

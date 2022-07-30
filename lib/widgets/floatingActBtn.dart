@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../screens/Facebook/Facebook_create.dart';
 import '../screens/Home.dart';
+import '../screens/Instagram/Instagram_create.dart';
+import '../screens/Twitter/Twitter_create.dart';
 import 'Widgets_Util.dart/AppRouter.dart';
 
 floatingActBtn() {
@@ -14,11 +16,11 @@ floatingActBtn() {
         icon: Image.asset('assets/icons/facebook_actionButton.png'),
       ),
       ActionButton(
-        onPressed: () => AppRouter.navigateToWidget(Home()),
+        onPressed: () => AppRouter.navigateToWidget(InstaCreate()),
         icon: Image.asset('assets/icons/instagram_actionButton.png'),
       ),
       ActionButton(
-        onPressed: () => AppRouter.navigateToWidget(Home()),
+        onPressed: () => AppRouter.navigateToWidget(TwitterCreate()),
         icon: CircleAvatar(
           child: Image.asset('assets/icons/twitter_actionButton.png'),
         ),
