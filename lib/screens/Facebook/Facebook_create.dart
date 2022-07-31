@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Data/classes/feelings.dart';
 import '../../Data/classes/post.dart';
+import '../../widgets/Widgets_Util.dart/AppRouter.dart';
 import '../../widgets/feeling_widget.dart';
 import '../../widgets/get_image.dart';
 import '../../widgets/save_dialog.dart';
@@ -33,7 +34,7 @@ class _FaceCreateState extends State<FaceCreate> {
         title: Text("NFPost".tr()),
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
                 Post post = Post(
                     type: FaceCreate.postType,
                     content: contentController.text,
@@ -41,9 +42,10 @@ class _FaceCreateState extends State<FaceCreate> {
                     feeling: selectedFeeling,
                     image: selectedImage);
 
-                showDialog(
+                await showDialog(
                     context: context,
                     builder: (context) => showSaveAlert(post, context));
+                AppRouter.popFromWidget();
               },
               icon: Icon(
                 Icons.done,

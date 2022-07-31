@@ -6,9 +6,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Data/classes/feelings.dart';
 import '../../Data/classes/post.dart';
+import '../../widgets/Widgets_Util.dart/AppRouter.dart';
 import '../../widgets/feeling_widget.dart';
 import '../../widgets/get_image.dart';
 import '../../widgets/save_dialog.dart';
+import '../Home.dart';
 
 class InstaCreate extends StatefulWidget {
   static const String screenName = "InstaCreate";
@@ -37,16 +39,18 @@ class _InstaCreateState extends State<InstaCreate> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
+              onPressed: () async {
                 Post post = Post(
                     type: InstaCreate.postType,
                     content: contentController.text,
                     creationTime: DateTime.now(),
                     image: selectedImage);
 
-                showDialog(
+                await showDialog(
                     context: context,
                     builder: (context) => showSaveAlert(post, context));
+
+                AppRouter.popFromWidget();
               },
               icon: Icon(
                 Icons.done,

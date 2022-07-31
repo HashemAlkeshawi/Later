@@ -1,8 +1,7 @@
 {
 "Home" : "Home",
 "Posts":"Posts",
-"DSPosts" : "Due soon posts",
-"DSMessages" : "Due soon messages",
+"DueSoonPosts" : "Due soon posts",
 "NFPost":"New post",
 "NIPost":"New post",
 "NTPost":"New Tweet",

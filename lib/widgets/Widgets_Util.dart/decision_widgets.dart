@@ -26,7 +26,9 @@ postSummaryImage(File image, int type) {
   print('this is the image ${image.toString()}');
   Widget widget;
   image.path != ''
-      ? widget = Image.file(image)
+      ? widget = Image.file(
+          image,
+        )
       : widget = selectImageByType(type);
   return widget;
 }

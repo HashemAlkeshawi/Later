@@ -95,13 +95,13 @@ class postsProvider extends ChangeNotifier {
     return listOfPosts_;
   }
 
-  deleteOnePost(int id) {
-    DbHelper.db.deleteOnePost(id);
+  deleteOnePost(int id) async {
+    await DbHelper.db.deleteOnePost(id);
     selectAllPosts();
   }
 
-  addNewPost(Post post) {
-    DbHelper.db.insertNewPost(post);
+  addNewPost(Post post) async {
+    await DbHelper.db.insertNewPost(post);
     selectAllPosts();
   }
 }

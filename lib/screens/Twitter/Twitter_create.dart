@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/screens/Home.dart';
 import 'package:later/widgets/Widgets_Util.dart/values.dart';
 
 import '../../Data/classes/feelings.dart';
@@ -84,16 +85,17 @@ class _TwitterCreateState extends State<TwitterCreate> {
                   ),
                   Spacer(),
                   InkWell(
-                      onTap: () {
+                      onTap: () async {
                         Post post = Post(
                             type: TwitterCreate.postType,
                             content: contentController.text,
                             creationTime: DateTime.now(),
                             image: selectedImage);
 
-                        showDialog(
+                        await showDialog(
                             context: context,
                             builder: (context) => showSaveAlert(post, context));
+                        AppRouter.popFromWidget();
                       },
                       child: Container(
                         decoration: BoxDecoration(

@@ -62,9 +62,14 @@ class Post {
     int hours = duration.inHours - (days * 24);
     int minutes = duration.inMinutes - ((days * 24 + hours) * 60);
 
-    String stellInDateTime = '${days}d, ${hours}h, ${minutes}m';
+    String sDays = '${days}d, ';
+    String sHours = '${hours}h, ';
+    String sMinutes = '${minutes}m';
 
-    return stellInDateTime;
+    String remainingTime =
+        '${days != 0 ? sDays : ''}${hours != 0 ? sHours : ''}${minutes != 0 ? sMinutes : ''}';
+
+    return remainingTime;
   }
 
   sharingDate() {

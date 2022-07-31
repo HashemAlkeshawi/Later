@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,11 +9,27 @@ import 'package:later/widgets/bottomNavBar.dart';
 import 'package:later/widgets/postSummary.dart';
 import 'package:provider/provider.dart';
 import '../Data/classes/post.dart';
+import '../widgets/Widgets_Util.dart/AppRouter.dart';
 import '../widgets/Widgets_Util.dart/decision_widgets.dart';
 import '../widgets/floatingActBtn.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   static const String screenName = "Home";
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    super.initState();
+    Timer.periodic(
+        const Duration(minutes: 1),
+        (Timer t) => setState((() {
+              print('hello');
+            })));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +47,6 @@ class Home extends StatelessWidget {
           margin: EdgeInsets.only(top: 10.h, left: 20.w, right: 20.w),
           child: Column(
             children: [
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 18.h),
-                decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20.0),
-                        topLeft: Radius.circular(20.0)),
-                    color: LaterColors.mainColor),
-                child: Center(
-                    child: Text(
-                  "Posts".tr(),
-                  style:
-                      TextStyle(color: Colors.white, fontSize: FontSize.xxl.sp),
-                )),
-              ),
-              SizedBox(
-                height: 8.h,
-              ),
               Row(
                 children: [
                   Expanded(
@@ -53,8 +54,12 @@ class Home extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
+                          decoration: const BoxDecoration(
+                            color: LaterColors.facebookColor,
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(15)),
+                          ),
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          color: LaterColors.facebookColor,
                           child: Center(
                             child: Text(
                               "Facebook".tr(),
@@ -65,8 +70,12 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Container(
+                          decoration: const BoxDecoration(
+                            color: LaterColors.facebookSecondaryColor,
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(15)),
+                          ),
                           padding: EdgeInsets.symmetric(vertical: 20.h),
-                          color: LaterColors.facebookSecondaryColor,
                           child: Center(
                             child: ifEmptyPosts(
                                 Provider.of<postsProvider>(context)
@@ -86,8 +95,12 @@ class Home extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
+                          decoration: const BoxDecoration(
+                            color: LaterColors.instagramColor,
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(15)),
+                          ),
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          color: LaterColors.instagramColor,
                           child: Center(
                             child: Text(
                               "Instagram".tr(),
@@ -98,8 +111,12 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Container(
+                          decoration: const BoxDecoration(
+                            color: LaterColors.instagramSecondaryColor,
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(15)),
+                          ),
                           padding: EdgeInsets.symmetric(vertical: 20.h),
-                          color: LaterColors.instagramSecondaryColor,
                           child: Center(
                             child: ifEmptyPosts(
                                 Provider.of<postsProvider>(context)
@@ -119,8 +136,12 @@ class Home extends StatelessWidget {
                     child: Column(
                       children: [
                         Container(
+                          decoration: const BoxDecoration(
+                            color: LaterColors.twitterColor,
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(15)),
+                          ),
                           padding: EdgeInsets.symmetric(vertical: 10.h),
-                          color: LaterColors.twitterColor,
                           child: Center(
                             child: Text(
                               "Twitter".tr(),
@@ -131,8 +152,12 @@ class Home extends StatelessWidget {
                           ),
                         ),
                         Container(
+                          decoration: const BoxDecoration(
+                            color: LaterColors.twitterSecondaryColor,
+                            borderRadius: BorderRadius.vertical(
+                                bottom: Radius.circular(15)),
+                          ),
                           padding: EdgeInsets.symmetric(vertical: 20.h),
-                          color: LaterColors.twitterSecondaryColor,
                           child: Center(
                             child: ifEmptyPosts(
                                 Provider.of<postsProvider>(context)
@@ -145,6 +170,29 @@ class Home extends StatelessWidget {
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(
+                height: 6,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 18.h),
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    // topRight: Radius.circular(20.0),
+                    // topLeft: Radius.circular(20.0)),
+                    color: LaterColors.mainColor),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 40.w,
+                    ),
+                    Text(
+                      "DueSoonPosts".tr(),
+                      style: TextStyle(
+                          color: Colors.white, fontSize: FontSize.xxl.sp),
+                    ),
+                  ],
+                ),
               ),
               Container(
                 // color: Colors.red,
@@ -159,12 +207,18 @@ class Home extends StatelessWidget {
                     itemBuilder: (context, index) {
                       Post post = Provider.of<postsProvider>(context)
                           .postsDueSoon![index];
-                      return postSummary(post: post, topBorderRadios: false);
+                      return InkWell(
+                          onTap: () {
+                            print(post.content ?? "nothing");
+                            AppRouter.navigateToWidget(Post.WidgetByType(post));
+                          },
+                          child:
+                              postSummary(post: post, topBorderRadios: false));
                     }),
               ),
             ],
           )),
-      bottomNavigationBar: BottomNavBar(screenWidth, screenName),
+      bottomNavigationBar: BottomNavBar(screenWidth, Home.screenName),
     );
   }
 }
