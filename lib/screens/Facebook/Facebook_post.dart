@@ -49,7 +49,7 @@ class FacePost extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
-                child: image == null ? const SizedBox() : Image.file(image),
+                child: image!.path == '' ? const SizedBox() : Image.file(image),
               ),
               const Divider(),
               Row(

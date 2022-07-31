@@ -21,7 +21,7 @@ showSaveAlert(Post post, BuildContext context) {
           },
           child: const Text("Cancel")),
       TextButton(
-        onPressed: () => savePost(post, context),
+        onPressed: () => savePost(post, context, false),
         child: const Text("Skip & Save"),
       ),
       TextButton(
@@ -32,22 +32,23 @@ showSaveAlert(Post post, BuildContext context) {
   );
 }
 
-savePost(Post post, BuildContext context) async {
-  await Provider.of<postsProvider>(context, listen: false).addNewPost(post);
+savePost(Post post, BuildContext context, bool fromDate) {
+  Provider.of<postsProvider>(context, listen: false).addNewPost(post);
 
-  Navigator.pop(context);
-  Navigator.pop(context);
+  !fromDate ? AppRouter.popFromWidget() : {};
+  AppRouter.popFromWidget();
 }
 
 void setDateTime(BuildContext context, Post post) async {
-  DatePicker.showDateTimePicker(context,
+  await DatePicker.showDateTimePicker(context,
       showTitleActions: true,
       minTime: DateTime.now(),
       maxTime: DateTime(2023, 12, 31),
       onChanged: (v) {}, onConfirm: (date) {
     post.dueOn = date;
     post.isTimed = true;
-    savePost(post, context);
+    savePost(post, context, true);
     print('confirm $date');
   }, currentTime: DateTime.now(), locale: LocaleType.en);
+  AppRouter.popFromWidget();
 }

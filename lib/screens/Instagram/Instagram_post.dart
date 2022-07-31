@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/widgets/Widgets_Util.dart/values.dart';
 import 'package:later/widgets/feeling_widget.dart';
 
 import '../../Data/classes/post.dart';
@@ -33,8 +34,8 @@ class InstaPost extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: const Color(0xff4267B2),
-        title: Text("FP".tr()),
+        backgroundColor: LaterColors.instagramColor,
+        title: Text("IP".tr()),
       ),
       body: Container(
           padding: EdgeInsets.all(12.h),
@@ -49,7 +50,7 @@ class InstaPost extends StatelessWidget {
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
-                child: image == null ? const SizedBox() : Image.file(image),
+                child: image!.path == '' ? const SizedBox() : Image.file(image),
               ),
               const Divider(),
               Row(

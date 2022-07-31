@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
 getImage(BuildContext context) async {
-  bool? isCamera = await showDialog(
+  bool isCamera = await showDialog(
     context: context,
     builder: (context) => AlertDialog(
       content: Column(
@@ -31,8 +31,9 @@ getImage(BuildContext context) async {
       ),
     ),
   );
+
   XFile? file = await ImagePicker()
-      .pickImage(source: isCamera! ? ImageSource.camera : ImageSource.gallery);
+      .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
 
   return File(file!.path);
 }

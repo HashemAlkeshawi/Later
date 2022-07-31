@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/widgets/Widgets_Util.dart/values.dart';
 
 import '../../Data/classes/feelings.dart';
 import '../../Data/classes/post.dart';
+import '../../widgets/Widgets_Util.dart/AppRouter.dart';
 import '../../widgets/feeling_widget.dart';
 import '../../widgets/get_image.dart';
 import '../../widgets/save_dialog.dart';
@@ -35,7 +37,7 @@ class _TwitterCreateState extends State<TwitterCreate> {
 ////////////
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff00ACEE),
+        backgroundColor: LaterColors.twitterColor,
         title: Text("NTPost".tr()),
       ),
       body: Container(
