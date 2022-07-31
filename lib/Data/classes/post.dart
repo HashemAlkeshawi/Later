@@ -2,7 +2,10 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:later/screens/Facebook/Facebook_create.dart';
 import 'package:later/screens/Facebook/Facebook_post.dart';
+import 'package:later/screens/Instagram/Instagram_create.dart';
+import 'package:later/screens/Twitter/Twitter_create.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../../screens/Instagram/Instagram_post.dart';
@@ -127,6 +130,17 @@ class Post {
         return InstaPost(post);
       case 3:
         return TwitterPost(post);
+    }
+  }
+
+  static WidgetByTypeToCreate(int type) {
+    switch (type) {
+      case 1:
+        return FaceCreate();
+      case 2:
+        return InstaCreate();
+      case 3:
+        return TwitterCreate();
     }
   }
 }

@@ -1,10 +1,26 @@
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Data/classes/post.dart';
+import 'AppRouter.dart';
+
+ifEmptyPosts(int count, int type) {
+  Widget? widget;
+  count != 0
+      ? widget = Text('$count')
+      : widget = InkWell(
+          onTap: () {
+            AppRouter.navigateToWidget(Post.WidgetByTypeToCreate(type));
+          },
+          child: const Icon(Icons.add,
+              color: Color.fromARGB(255, 0, 0, 0), size: 22),
+        );
+
+  return widget;
+}
 
 postSummaryImage(File image, int type) {
   print('this is the image ${image.toString()}');

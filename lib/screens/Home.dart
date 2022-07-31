@@ -7,6 +7,7 @@ import 'package:later/widgets/bottomNavBar.dart';
 import 'package:later/widgets/postSummary.dart';
 import 'package:provider/provider.dart';
 import '../Data/classes/post.dart';
+import '../widgets/Widgets_Util.dart/decision_widgets.dart';
 import '../widgets/floatingActBtn.dart';
 
 class Home extends StatelessWidget {
@@ -67,8 +68,11 @@ class Home extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.facebookSecondaryColor,
                           child: Center(
-                            child: Text(
-                                '${Provider.of<postsProvider>(context).facebookPosts!.length}'),
+                            child: ifEmptyPosts(
+                                Provider.of<postsProvider>(context)
+                                    .facebookPosts!
+                                    .length,
+                                1),
                           ),
                         )
                       ],
@@ -97,8 +101,11 @@ class Home extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.instagramSecondaryColor,
                           child: Center(
-                            child: Text(
-                                '${Provider.of<postsProvider>(context).instagramPosts!.length}'),
+                            child: ifEmptyPosts(
+                                Provider.of<postsProvider>(context)
+                                    .instagramPosts!
+                                    .length,
+                                2),
                           ),
                         )
                       ],
@@ -127,8 +134,11 @@ class Home extends StatelessWidget {
                           padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.twitterSecondaryColor,
                           child: Center(
-                            child: Text(
-                                '${Provider.of<postsProvider>(context).twitterPosts!.length}'),
+                            child: ifEmptyPosts(
+                                Provider.of<postsProvider>(context)
+                                    .twitterPosts!
+                                    .length,
+                                3),
                           ),
                         )
                       ],
