@@ -60,7 +60,7 @@ class _FaceCreateState extends State<FaceCreate> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
                 child: TextField(
-                  // controller: contentController,
+                  controller: contentController,
                   maxLines: null,
                   decoration: InputDecoration(
                     border: InputBorder.none,

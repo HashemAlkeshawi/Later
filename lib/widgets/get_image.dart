@@ -34,7 +34,7 @@ getImage(BuildContext context) async {
   XFile? file = await ImagePicker()
       .pickImage(source: isCamera! ? ImageSource.camera : ImageSource.gallery);
 
-  return file;
+  return File(file!.path);
 }
 
 selectImage(File? image) {

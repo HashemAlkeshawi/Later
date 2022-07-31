@@ -1,24 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart';
 import '../classes/post.dart';
 
-class DbHelper extends ChangeNotifier {
-  List<Post>? posts = [];
-  List<Post>? posts_due_soon = [];
+class DbHelper {
+  DbHelper._();
+  static DbHelper db = DbHelper._();
+
   Database? _database;
 
-  DbHelper() {
-    print('constructor called');
-    initDatabase();
-  }
   initDatabase() async {
-    print("initiated");
     _database = await createConnectionWithDatabase();
-    selectAllPosts();
-
-    notifyListeners();
+    print("initiated");
   }
 
   Future<Database> createConnectionWithDatabase() async {
@@ -59,14 +52,12 @@ class DbHelper extends ChangeNotifier {
     selectAllPosts();
   }
 
-  selectAllPosts() async {
+  Future<List<Post>> selectAllPosts() async {
     List<Map<String, Object?>> rowsAsMaps = await _database!.query(
       PostsTable.postsTableName,
     );
 
-    posts = rowsAsMaps.map((e) => Post.fromMap(e)).toList();
-    dueSoonPosts();
-    notifyListeners();
+    return rowsAsMaps.map((e) => Post.fromMap(e)).toList();
   }
 
   selectOnePost(int id) {
@@ -80,29 +71,14 @@ class DbHelper extends ChangeNotifier {
     print(count.toString());
   }
 
-  deleteOnePost(int id) {
+  deleteOnePost(int id) async {
     _database!.delete(PostsTable.postsTableName,
         where: '${PostsTable.idColumName}=?', whereArgs: [id]);
-    selectAllPosts();
+    await selectAllPosts();
   }
   //--------------------------------------------------
   // POSTS CRUID ---------------------------------------
 
-  dueSoonPosts() {
-    List<Post> listOfPosts_ = posts!.where((element) {
-      return element.isTimed;
-    }).toList();
-
-    listOfPosts_.sort(((a, b) {
-      return a.dueOn!.compareTo(b.dueOn!);
-    }));
-
-    listOfPosts_.length > 4
-        ? listOfPosts_ = listOfPosts_.sublist(0, 4)
-        : listOfPosts_ = listOfPosts_;
-
-    posts_due_soon = listOfPosts_;
-  }
 }
 
 class PostsTable {

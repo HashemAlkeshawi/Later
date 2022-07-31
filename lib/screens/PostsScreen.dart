@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:later/Data/database/db_helper.dart';
+import 'package:later/Data/postsProvider.dart';
 import 'package:later/widgets/bottomNavBar.dart';
 import 'package:later/widgets/postSummary.dart';
 import 'package:provider/provider.dart';
@@ -20,20 +21,11 @@ class PostsScreen extends StatefulWidget {
 }
 
 class _PostsScreenState extends State<PostsScreen> {
-  Category? selectedCategorie;
-
   // List<Post> list = [];
 
   // posts() async {
   //   list = await Provider.of<DbHelper>(context).selectAllPosts();
   // }
-
-  List<Category> categories = [
-    Category('All'),
-    Category('facebook'),
-    Category('instagram'),
-    Category('twitter'),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +43,7 @@ class _PostsScreenState extends State<PostsScreen> {
         body: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: [
-            Container(
-              // padding: EdgeInsets.all(8.r),
+            SizedBox(
               height: screnHeight - 110.h,
               child: Column(
                 children: [
@@ -60,17 +51,18 @@ class _PostsScreenState extends State<PostsScreen> {
                     height: 100.h,
                     child: DropdownButton<Category>(
                         hint: ListTile(
-                          title: Text(categories.first.categoryName!),
+                          title: Text(Category.catigories.first.categoryName!),
                           leading: CircleAvatar(
                             backgroundColor: Colors.transparent,
                             child: Image.asset(
-                                'assets/images/${categories.first.categoryName}.png'),
+                                'assets/images/${Category.catigories.first.categoryName}.png'),
                           ),
                         ),
                         isExpanded: true,
                         underline: const SizedBox(),
-                        value: selectedCategorie,
-                        items: categories.map((e) {
+                        value: Provider.of<postsProvider>(context)
+                            .selectedCategory,
+                        items: Category.catigories.map((e) {
                           return DropdownMenuItem<Category>(
                             value: e,
                             child: ListTile(
@@ -83,27 +75,26 @@ class _PostsScreenState extends State<PostsScreen> {
                             ),
                           );
                         }).toList(),
-                        onChanged: (v) {
-                          selectedCategorie = v;
+                        onChanged: (category) {
+                          Provider.of<postsProvider>(context, listen: false)
+                              .setSelectedCategory(category: category);
                           // posts = categorize(listOfPosts_, posts!, selectedCatigory!);
-
-                          // setState(() {});
                         }),
                   ),
                   Container(
                     height: screnHeight - 220.h,
                     padding: EdgeInsets.only(bottom: 60.h),
                     child: ListView.builder(
-                      // reverse: true,
                       controller: ScrollController(keepScrollOffset: false),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        Post post =
-                            Provider.of<DbHelper>(context).posts![index];
+                        Post post = Provider.of<postsProvider>(context)
+                            .selectedList[index];
                         return InkWell(
                             onTap: () {
                               print(post.content ?? "nothing");
-                              // AppRouter.navigateToWidget(selectType(post));
+                              AppRouter.navigateToWidget(
+                                  Post.WidgetByType(post));
                             },
                             child: SwipeableTile.swipeToTrigger(
                               color: Colors.white,
@@ -111,7 +102,8 @@ class _PostsScreenState extends State<PostsScreen> {
                               direction: SwipeDirection.horizontal,
                               onSwiped: (direction) {
                                 if (direction == SwipeDirection.endToStart) {
-                                  Provider.of<DbHelper>(context, listen: false)
+                                  Provider.of<postsProvider>(context,
+                                          listen: false)
                                       .deleteOnePost(post.id!);
                                   print('delete');
                                 } else {
@@ -156,7 +148,9 @@ class _PostsScreenState extends State<PostsScreen> {
                                       post: post, topBorderRadios: true)),
                             ));
                       },
-                      itemCount: Provider.of<DbHelper>(context).posts!.length,
+                      itemCount: Provider.of<postsProvider>(context)
+                          .selectedList
+                          .length,
                     ),
                   ),
                 ],

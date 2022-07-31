@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:later/Data/database/db_helper.dart';
+import 'package:later/Data/postsProvider.dart';
 import 'package:provider/provider.dart';
 
 import 'widgets/Widgets_Util.dart/AppRouter.dart';
@@ -10,7 +11,7 @@ import 'screens/Home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  // await DbHelper.dbHelper.initDatabase();
+  await DbHelper.db.initDatabase();
 
   runApp(EasyLocalization(
       supportedLocales: const [Locale('en'), Locale('ar')],
@@ -29,8 +30,8 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return ChangeNotifierProvider<DbHelper>(
-          create: (context) => DbHelper(),
+        return ChangeNotifierProvider<postsProvider>(
+          create: (context) => postsProvider(),
           child: MaterialApp(
             navigatorKey: AppRouter.navKey,
             debugShowCheckedModeBanner: false,

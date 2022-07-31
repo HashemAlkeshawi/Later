@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:later/Data/database/db_helper.dart';
+import 'package:later/Data/postsProvider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -32,7 +33,7 @@ showSaveAlert(Post post, BuildContext context) {
 }
 
 savePost(Post post, BuildContext context) async {
-  Provider.of<DbHelper>(context, listen: false).insertNewPost(post);
+  await Provider.of<postsProvider>(context, listen: false).addNewPost(post);
 
   Navigator.pop(context);
   Navigator.pop(context);

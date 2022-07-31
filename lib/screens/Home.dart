@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:later/Data/database/db_helper.dart';
+import 'package:later/Data/postsProvider.dart';
 import 'package:later/widgets/Widgets_Util.dart/values.dart';
 import 'package:later/widgets/bottomNavBar.dart';
 import 'package:later/widgets/postSummary.dart';
@@ -66,8 +66,9 @@ class Home extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.facebookSecondaryColor,
-                          child: const Center(
-                            child: Text("3"),
+                          child: Center(
+                            child: Text(
+                                '${Provider.of<postsProvider>(context).facebookPosts!.length}'),
                           ),
                         )
                       ],
@@ -95,8 +96,9 @@ class Home extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.instagramSecondaryColor,
-                          child: const Center(
-                            child: Text("5"),
+                          child: Center(
+                            child: Text(
+                                '${Provider.of<postsProvider>(context).instagramPosts!.length}'),
                           ),
                         )
                       ],
@@ -124,8 +126,9 @@ class Home extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(vertical: 20.h),
                           color: LaterColors.twitterSecondaryColor,
-                          child: const Center(
-                            child: Text("2"),
+                          child: Center(
+                            child: Text(
+                                '${Provider.of<postsProvider>(context).twitterPosts!.length}'),
                           ),
                         )
                       ],
@@ -139,12 +142,13 @@ class Home extends StatelessWidget {
                 height: 375.h,
                 child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount:
-                        Provider.of<DbHelper>(context).posts_due_soon!.length,
+                    itemCount: Provider.of<postsProvider>(context)
+                        .postsDueSoon!
+                        .length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      Post post =
-                          Provider.of<DbHelper>(context).posts_due_soon![index];
+                      Post post = Provider.of<postsProvider>(context)
+                          .postsDueSoon![index];
                       return postSummary(post: post, topBorderRadios: false);
                     }),
               ),

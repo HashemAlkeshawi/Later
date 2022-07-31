@@ -1,7 +1,12 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:later/screens/Facebook/Facebook_post.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../screens/Instagram/Instagram_post.dart';
+import '../../screens/Twitter/Twitter_post.dart';
 import '../database/db_helper.dart';
 
 class Post {
@@ -59,6 +64,20 @@ class Post {
     return stellInDateTime;
   }
 
+  sharingDate() {
+    Widget widget;
+    widget = isTimed
+        ? Row(
+            children: [
+              Text("SharingDate".tr()),
+              Text(DateFormat.jm().add_yMMMEd().format(dueOn!))
+            ],
+          )
+        : const SizedBox();
+
+    return widget;
+  }
+
   Future<String> selectedmagePath(File? selectedImage) async {
     String? imagePath;
     final Directory path = await getApplicationDocumentsDirectory();
@@ -66,7 +85,6 @@ class Post {
     if (selectedImage != null) {
       String imageFileType =
           selectedImage.path.substring(selectedImage.path.length - 4);
-
       final File imageFile =
           await selectedImage.copy('$appPath/${DateTime.now()}$imageFileType');
 
@@ -99,5 +117,16 @@ class Post {
             : properContent = content;
 
     return properContent;
+  }
+
+  static WidgetByType(Post post) {
+    switch (post.type) {
+      case 1:
+        return FacePost(post);
+      case 2:
+        return InstaPost(post);
+      case 3:
+        return TwitterPost(post);
+    }
   }
 }
