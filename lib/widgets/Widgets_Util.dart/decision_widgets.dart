@@ -68,8 +68,12 @@ selectImageByType(Post post) {
     case 2:
       return Image.asset('assets/images/instagram.png');
     case 3:
-      return post.isEdited ?? false
-          ? Image.asset('assets/images/twitter_edited.png')
+      print('this is if edited: ${post.isEdited}');
+      return post.isEdited
+          ? Image.asset(
+              'assets/images/twitter_edited.png',
+              height: 100.h,
+            )
           : Image.asset('assets/images/twitter.png');
   }
 }

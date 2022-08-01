@@ -1,16 +1,10 @@
 import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import '../../Data/classes/feelings.dart';
 import '../../Data/classes/post.dart';
-import '../../widgets/Widgets_Util.dart/AppRouter.dart';
-import '../../widgets/feeling_widget.dart';
 import '../../widgets/get_image.dart';
 import '../../widgets/save_dialog.dart';
-import '../Home.dart';
 
 class InstaUpdate extends StatefulWidget {
   Post post;
@@ -26,6 +20,14 @@ class _InstaUpdateState extends State<InstaUpdate> {
   TextEditingController contentController = TextEditingController();
 
   File? selectedImage;
+  int? oldPostId;
+
+  void initState() {
+    oldPostId = widget.post.id;
+    Post post = widget.post;
+    contentController.text = post.content!;
+    selectedImage = post.image;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,13 +47,15 @@ class _InstaUpdateState extends State<InstaUpdate> {
                 Post post = Post(
                     type: InstaUpdate.postType,
                     content: contentController.text,
-                    isEdited: false,
+                    isEdited: true,
                     creationTime: DateTime.now(),
                     image: selectedImage);
 
                 await showDialog(
                     context: context,
-                    builder: (context) => showSaveAlert(post, context));
+                    builder: (context) => showSaveAlert(
+                        post, oldPostId!, context,
+                        isSave: false));
               },
               icon: Icon(
                 Icons.done,

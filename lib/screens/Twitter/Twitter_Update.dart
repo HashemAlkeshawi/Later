@@ -24,6 +24,13 @@ class _TwitterUpdateState extends State<TwitterUpdate> {
   TextEditingController contentController = TextEditingController();
 
   File? selectedImage;
+  int? oldPostId;
+  void initState() {
+    oldPostId = widget.post.id;
+    Post post = widget.post;
+    contentController.text = post.content!;
+    selectedImage = post.image;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,13 +96,15 @@ class _TwitterUpdateState extends State<TwitterUpdate> {
                         Post post = Post(
                             type: TwitterUpdate.postType,
                             content: contentController.text,
-                            isEdited: false,
+                            isEdited: true,
                             creationTime: DateTime.now(),
                             image: selectedImage);
 
                         await showDialog(
                             context: context,
-                            builder: (context) => showSaveAlert(post, context));
+                            builder: (context) => showSaveAlert(
+                                post, oldPostId!, context,
+                                isSave: false));
                         // AppRouter.popFromWidget();
                       },
                       child: Container(

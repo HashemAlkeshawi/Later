@@ -12,7 +12,8 @@ import '../Data/classes/post.dart';
 import '../screens/Home.dart';
 import 'Widgets_Util.dart/AppRouter.dart';
 
-showSaveAlert(Post post, BuildContext context) {
+showSaveAlert(Post post, int oldPostId, BuildContext context,
+    {required isSave}) {
   return AlertDialog(
     title: Text("alertSave".tr()),
     actions: [
@@ -23,7 +24,7 @@ showSaveAlert(Post post, BuildContext context) {
           child: const Text("Cancel")),
       TextButton(
         onPressed: () async {
-          await savePost(post, context, false);
+          await savePost(post, oldPostId, context, false, isSave: isSave);
           AppRouter.popFromWidget();
           AppRouter.popFromWidget();
         },
@@ -31,7 +32,7 @@ showSaveAlert(Post post, BuildContext context) {
       ),
       TextButton(
         onPressed: () async {
-          await setDateTime(context, post);
+          await setDateTime(context, post, oldPostId, isSave: isSave);
           AppRouter.popFromWidget();
           AppRouter.popFromWidget();
         },
@@ -41,11 +42,16 @@ showSaveAlert(Post post, BuildContext context) {
   );
 }
 
-savePost(Post post, BuildContext context, bool fromDate) async {
-  Provider.of<postsProvider>(context, listen: false).addNewPost(post);
+savePost(Post post, int oldPostId, BuildContext context, bool fromDate,
+    {required bool isSave}) async {
+  isSave
+      ? Provider.of<postsProvider>(context, listen: false).addNewPost(post)
+      : Provider.of<postsProvider>(context, listen: false)
+          .updateOnePost(post: post, oldPostId: oldPostId);
 }
 
-setDateTime(BuildContext context, Post post) async {
+setDateTime(BuildContext context, Post post, int oldPostId,
+    {required bool isSave}) async {
   await DatePicker.showDateTimePicker(context,
       showTitleActions: true,
       minTime: DateTime.now(),
@@ -55,5 +61,5 @@ setDateTime(BuildContext context, Post post) async {
     post.isTimed = true;
     print('confirm $date');
   }, currentTime: DateTime.now(), locale: LocaleType.en);
-  savePost(post, context, true);
+  savePost(post, oldPostId, context, true, isSave: isSave);
 }

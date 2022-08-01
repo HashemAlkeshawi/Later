@@ -49,7 +49,8 @@ class _InstaCreateState extends State<InstaCreate> {
 
                 await showDialog(
                     context: context,
-                    builder: (context) => showSaveAlert(post, context));
+                    builder: (context) =>
+                        showSaveAlert(post, 0, context, isSave: true));
               },
               icon: Icon(
                 Icons.done,

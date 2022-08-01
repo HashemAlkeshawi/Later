@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/widgets/Widgets_Util.dart/decision_widgets.dart';
 import 'package:later/widgets/Widgets_Util.dart/values.dart';
 import 'package:later/widgets/feeling_widget.dart';
 
@@ -21,13 +22,13 @@ class FacePost extends StatelessWidget {
     String? feeling = post.feeling;
     String content = post.content!;
     File? image = post.image;
-    String typeImage = post.typeImage();
+    Image typeImage = selectImageByType(post);
     DateTime? dueOn = post.dueOn;
     bool isTimed = post.isTimed;
 
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      floatingActionButton: Image.asset(typeImage),
+      floatingActionButton: typeImage,
       appBar: AppBar(
         backgroundColor: LaterColors.facebookColor,
         title: Text("FP".tr()),

@@ -45,7 +45,8 @@ class _FaceCreateState extends State<FaceCreate> {
 
                 await showDialog(
                     context: context,
-                    builder: (context) => showSaveAlert(post, context));
+                    builder: (context) =>
+                        showSaveAlert(post, 0, context, isSave: true));
               },
               icon: Icon(
                 Icons.done,

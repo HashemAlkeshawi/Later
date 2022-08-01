@@ -66,10 +66,12 @@ class DbHelper {
         where: '${PostsTable.idColumName}=?', whereArgs: [id]);
   }
 
-  updateOnePost(Post post) async {
-    int count = await _database!.update(PostsTable.idColumName, post.toMap(),
-        where: '${PostsTable.idColumName}=?', whereArgs: [post.id]);
+  updateOnePost({required Post post, required oldPostId}) async {
+    int count = await _database!.update(
+        PostsTable.postsTableName, await post.toMap(),
+        where: '${PostsTable.idColumName}=?', whereArgs: [oldPostId]);
     print(count.toString());
+    selectAllPosts();
   }
 
   deleteOnePost(int id) async {

@@ -24,10 +24,10 @@ class Post {
   bool isTimed = false;
   late int type;
   String? feeling;
-  bool? isEdited;
+  bool isEdited = false;
 
   Post(
-      {this.isEdited,
+      {this.isEdited = false,
       this.content,
       this.creationTime,
       this.feeling,
@@ -55,7 +55,7 @@ class Post {
       PostsTable.dueOnColumName: dueOn.toString(),
       PostsTable.imagePathColumName: await selectedmagePath(image),
       PostsTable.isTimedColumName: isTimed ? 1 : 0,
-      PostsTable.isEditedColumName: isTimed ? 1 : 0,
+      PostsTable.isEditedColumName: isEdited ? 1 : 0,
       PostsTable.typeColumName: type,
       PostsTable.feelingColumName: feeling
     };
@@ -97,7 +97,8 @@ class Post {
     String? imagePath;
     final Directory path = await getApplicationDocumentsDirectory();
     String appPath = path.path;
-    if (selectedImage != null) {
+    if (selectedImage == null) {
+    } else if (selectedImage.path != '') {
       String imageFileType =
           selectedImage.path.substring(selectedImage.path.length - 4);
       final File imageFile =
@@ -109,18 +110,6 @@ class Post {
     print(imagePath);
 
     return imagePath ?? '';
-  }
-
-  String typeImage() {
-    switch (type) {
-      case 1:
-        return 'assets/images/facebook.png';
-      case 2:
-        return 'assets/images/instagram.png';
-      case 3:
-        return 'assets/images/twitter.png';
-    }
-    return '';
   }
 
   properContent() {

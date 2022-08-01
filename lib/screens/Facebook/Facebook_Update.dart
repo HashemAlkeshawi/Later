@@ -1,9 +1,7 @@
 import 'dart:io';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../Data/classes/feelings.dart';
 import '../../Data/classes/post.dart';
 import '../../widgets/feeling_widget.dart';
@@ -26,13 +24,18 @@ class _FaceUpdateState extends State<FaceUpdate> {
   String? selectedFeeling;
 
   File? selectedImage;
-
+  int? oldPostId;
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    oldPostId = widget.post.id;
     Post post = widget.post;
     contentController.text = post.content!;
     selectedFeeling = post.feeling;
     selectedImage = post.image;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -41,11 +44,21 @@ class _FaceUpdateState extends State<FaceUpdate> {
         actions: [
           IconButton(
               onPressed: () async {
-                post.isEdited = true;
+                Post post = Post(
+                    type: FaceUpdate.postType,
+                    content: contentController.text,
+                    creationTime: DateTime.now(),
+                    feeling: selectedFeeling,
+                    image: selectedImage,
+                    isEdited: true);
 
-                post = await showDialog(
+                // post.isEdited = true;
+
+                await showDialog(
                     context: context,
-                    builder: (context) => showSaveAlert(post, context));
+                    builder: (context) => showSaveAlert(
+                        post, oldPostId!, context,
+                        isSave: false));
               },
               icon: Icon(
                 Icons.done,

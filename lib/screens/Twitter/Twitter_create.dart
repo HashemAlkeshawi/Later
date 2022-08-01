@@ -92,7 +92,8 @@ class _TwitterCreateState extends State<TwitterCreate> {
 
                         await showDialog(
                             context: context,
-                            builder: (context) => showSaveAlert(post, context));
+                            builder: (context) =>
+                                showSaveAlert(post, 0, context, isSave: true));
                         // AppRouter.popFromWidget();
                       },
                       child: Container(
