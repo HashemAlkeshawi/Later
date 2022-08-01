@@ -24,6 +24,7 @@ class AppRouter {
   // }
 
   static navigateWithReplacemtnToWidget(Widget widget) {
+    print('navigating ');
     Navigator.of(navKey.currentContext!)
         .pushReplacement(MaterialPageRoute(builder: (context) {
       return widget;

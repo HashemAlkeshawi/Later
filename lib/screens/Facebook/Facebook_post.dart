@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:later/widgets/Widgets_Util.dart/values.dart';
 import 'package:later/widgets/feeling_widget.dart';
 
 import '../../Data/classes/post.dart';
+import '../../widgets/app_bar_actions.dart';
 
 class FacePost extends StatelessWidget {
   static const String screenName = "Face_Post";
@@ -25,16 +27,11 @@ class FacePost extends StatelessWidget {
 
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      floatingActionButton: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: 60.r,
-        backgroundImage: AssetImage(
-          typeImage,
-        ),
-      ),
+      floatingActionButton: Image.asset(typeImage),
       appBar: AppBar(
-        backgroundColor: const Color(0xff4267B2),
+        backgroundColor: LaterColors.facebookColor,
         title: Text("FP".tr()),
+        actions: [appBarActions(post)],
       ),
       body: Container(
           padding: EdgeInsets.all(12.h),
@@ -42,11 +39,13 @@ class FacePost extends StatelessWidget {
           child: ListView(
             children: [
               feelingWidget(feeling),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 18.h),
-                padding: EdgeInsets.all(10.r),
-                child: Text(content),
-              ),
+              content != ''
+                  ? Container(
+                      margin: EdgeInsets.symmetric(vertical: 18.h),
+                      padding: EdgeInsets.all(10.r),
+                      child: Text(content),
+                    )
+                  : const SizedBox(),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 child: image!.path == '' ? const SizedBox() : Image.file(image),

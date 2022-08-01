@@ -116,7 +116,7 @@ class _PostsScreenState extends State<PostsScreen> {
                                   return Container(
                                     padding: EdgeInsets.only(left: 260.w),
                                     height: screnHeight - 210.h,
-                                    color: Colors.red,
+                                    color: Colors.redAccent,
                                     child: Icon(
                                       Icons.delete,
                                       color: Colors.white,

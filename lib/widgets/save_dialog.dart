@@ -25,12 +25,14 @@ showSaveAlert(Post post, BuildContext context) {
         onPressed: () async {
           await savePost(post, context, false);
           AppRouter.popFromWidget();
+          AppRouter.popFromWidget();
         },
         child: const Text("Skip & Save"),
       ),
       TextButton(
         onPressed: () async {
           await setDateTime(context, post);
+          AppRouter.popFromWidget();
           AppRouter.popFromWidget();
         },
         child: const Text("Set"),

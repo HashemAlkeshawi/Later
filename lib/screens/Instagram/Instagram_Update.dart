@@ -12,15 +12,17 @@ import '../../widgets/get_image.dart';
 import '../../widgets/save_dialog.dart';
 import '../Home.dart';
 
-class InstaCreate extends StatefulWidget {
-  static const String screenName = "InstaCreate";
+class InstaUpdate extends StatefulWidget {
+  Post post;
+  InstaUpdate(this.post);
+  static const String screenName = "InstaUpdate";
   static const int postType = 2;
 
   @override
-  State<InstaCreate> createState() => _InstaCreateState();
+  State<InstaUpdate> createState() => _InstaUpdateState();
 }
 
-class _InstaCreateState extends State<InstaCreate> {
+class _InstaUpdateState extends State<InstaUpdate> {
   TextEditingController contentController = TextEditingController();
 
   File? selectedImage;
@@ -41,7 +43,7 @@ class _InstaCreateState extends State<InstaCreate> {
           IconButton(
               onPressed: () async {
                 Post post = Post(
-                    type: InstaCreate.postType,
+                    type: InstaUpdate.postType,
                     content: contentController.text,
                     isEdited: false,
                     creationTime: DateTime.now(),

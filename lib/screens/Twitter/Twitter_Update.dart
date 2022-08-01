@@ -9,15 +9,18 @@ import '../../widgets/Widgets_Util.dart/AppRouter.dart';
 import '../../widgets/get_image.dart';
 import '../../widgets/save_dialog.dart';
 
-class TwitterCreate extends StatefulWidget {
-  static const String screenName = "TwitterCreate";
+class TwitterUpdate extends StatefulWidget {
+  Post post;
+  TwitterUpdate(this.post);
+
+  static const String screenName = "TwitterUpdate";
   static const int postType = 3;
 
   @override
-  State<TwitterCreate> createState() => _TwitterCreateState();
+  State<TwitterUpdate> createState() => _TwitterUpdateState();
 }
 
-class _TwitterCreateState extends State<TwitterCreate> {
+class _TwitterUpdateState extends State<TwitterUpdate> {
   TextEditingController contentController = TextEditingController();
 
   File? selectedImage;
@@ -84,7 +87,7 @@ class _TwitterCreateState extends State<TwitterCreate> {
                   InkWell(
                       onTap: () async {
                         Post post = Post(
-                            type: TwitterCreate.postType,
+                            type: TwitterUpdate.postType,
                             content: contentController.text,
                             isEdited: false,
                             creationTime: DateTime.now(),

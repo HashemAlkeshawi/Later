@@ -2,9 +2,12 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:later/screens/Facebook/Facebook_Update.dart';
 import 'package:later/screens/Facebook/Facebook_create.dart';
 import 'package:later/screens/Facebook/Facebook_post.dart';
+import 'package:later/screens/Instagram/Instagram_Update.dart';
 import 'package:later/screens/Instagram/Instagram_create.dart';
+import 'package:later/screens/Twitter/Twitter_Update.dart';
 import 'package:later/screens/Twitter/Twitter_create.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -21,9 +24,11 @@ class Post {
   bool isTimed = false;
   late int type;
   String? feeling;
+  bool? isEdited;
 
   Post(
-      {this.content,
+      {this.isEdited,
+      this.content,
       this.creationTime,
       this.feeling,
       this.image,
@@ -38,6 +43,7 @@ class Post {
     dueOn = DateTime.tryParse(map[PostsTable.dueOnColumName]);
     image = File(map[PostsTable.imagePathColumName]);
     isTimed = map[PostsTable.isTimedColumName] == 1 ? true : false;
+    isEdited = map[PostsTable.isEditedColumName] == 1 ? true : false;
     type = map[PostsTable.typeColumName];
     feeling = map[PostsTable.feelingColumName];
   }
@@ -49,6 +55,7 @@ class Post {
       PostsTable.dueOnColumName: dueOn.toString(),
       PostsTable.imagePathColumName: await selectedmagePath(image),
       PostsTable.isTimedColumName: isTimed ? 1 : 0,
+      PostsTable.isEditedColumName: isTimed ? 1 : 0,
       PostsTable.typeColumName: type,
       PostsTable.feelingColumName: feeling
     };
@@ -120,8 +127,8 @@ class Post {
     String? properContent;
     content == null
         ? properContent = ''
-        : content!.length > 60
-            ? properContent = "${content!.substring(0, 59)}.."
+        : content!.length > 25
+            ? properContent = "${content!.substring(0, 24)}.."
             : properContent = content;
 
     return properContent;
@@ -138,7 +145,7 @@ class Post {
     }
   }
 
-  static WidgetByTypeToCreate(int type) {
+  static widgetByTypeToCreate(int type) {
     switch (type) {
       case 1:
         return FaceCreate();
@@ -146,6 +153,17 @@ class Post {
         return InstaCreate();
       case 3:
         return TwitterCreate();
+    }
+  }
+
+  static widgetByTypeToUpdate(Post post) {
+    switch (post.type) {
+      case 1:
+        return FaceUpdate(post);
+      case 2:
+        return InstaUpdate(post);
+      case 3:
+        return TwitterUpdate(post);
     }
   }
 }

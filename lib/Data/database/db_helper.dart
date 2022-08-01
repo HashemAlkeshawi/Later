@@ -30,6 +30,7 @@ class DbHelper {
   ${PostsTable.dueOnColumName} TEXT,
   ${PostsTable.imagePathColumName} TEXT,
   ${PostsTable.isTimedColumName} INTEGER,
+  ${PostsTable.isEditedColumName} INTEGER,
   ${PostsTable.feelingColumName} TEXT,
   ${PostsTable.typeColumName} INTEGER
   )
@@ -89,6 +90,7 @@ class PostsTable {
   static const String dueOnColumName = 'dueOn';
   static const String imagePathColumName = 'imagePath';
   static const String isTimedColumName = 'isTimed';
+  static const String isEditedColumName = 'isEdited';
   static const String feelingColumName = 'feeling';
   static const String typeColumName = 'type';
 }

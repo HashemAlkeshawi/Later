@@ -5,35 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 
-getImage(BuildContext context) async {
-  bool isCamera = await showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-            },
-            child: Text("Camera"),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop(false);
-            },
-            child: const Text("gallery "),
-          ),
-        ],
-      ),
-    ),
-  );
+import 'Widgets_Util.dart/decision_widgets.dart';
 
-  XFile? file = await ImagePicker()
-      .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+getImage(BuildContext context) async {
+  XFile? file =
+      await ImagePicker().pickImage(source: await imageSource(context));
 
   return File(file!.path);
 }

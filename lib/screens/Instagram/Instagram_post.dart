@@ -7,6 +7,7 @@ import 'package:later/widgets/Widgets_Util.dart/values.dart';
 import 'package:later/widgets/feeling_widget.dart';
 
 import '../../Data/classes/post.dart';
+import '../../widgets/app_bar_actions.dart';
 
 class InstaPost extends StatelessWidget {
   static const String screenName = "Insta_Post";
@@ -26,28 +27,24 @@ class InstaPost extends StatelessWidget {
 
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      floatingActionButton: CircleAvatar(
-        backgroundColor: Colors.transparent,
-        radius: 60.r,
-        backgroundImage: AssetImage(
-          typeImage,
-        ),
-      ),
+      floatingActionButton: Image.asset(typeImage),
       appBar: AppBar(
         backgroundColor: LaterColors.instagramColor,
         title: Text("IP".tr()),
+        actions: [appBarActions(post)],
       ),
       body: Container(
           padding: EdgeInsets.all(12.h),
           height: screenHeight,
           child: ListView(
             children: [
-              feelingWidget(feeling),
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 18.h),
-                padding: EdgeInsets.all(10.r),
-                child: Text(content),
-              ),
+              content != ''
+                  ? Container(
+                      margin: EdgeInsets.symmetric(vertical: 18.h),
+                      padding: EdgeInsets.all(10.r),
+                      child: Text(content),
+                    )
+                  : const SizedBox(),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 18.h),
                 child: image!.path == '' ? const SizedBox() : Image.file(image),

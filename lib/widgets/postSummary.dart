@@ -36,9 +36,7 @@ postSummary({required Post post, required bool topBorderRadios}) {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               showIfTimed(post),
-              SizedBox(
-                  height: 250.h,
-                  child: postSummaryImage(post.image!, post.type)),
+              SizedBox(height: 250.h, child: postSummaryImage(post)),
 
               Container(
                   margin: EdgeInsets.symmetric(horizontal: 22.w),
@@ -54,7 +52,7 @@ postSummary({required Post post, required bool topBorderRadios}) {
         Container(
           margin: EdgeInsets.fromLTRB(0, 10.h, 20.w, 0),
           child: Row(
-            children: [const Spacer(), selectImageByType(post.type)],
+            children: [const Spacer(), selectImageByType(post)],
           ),
         ),
       ],

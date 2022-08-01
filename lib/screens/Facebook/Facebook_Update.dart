@@ -6,20 +6,22 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../Data/classes/feelings.dart';
 import '../../Data/classes/post.dart';
-import '../../widgets/Widgets_Util.dart/AppRouter.dart';
 import '../../widgets/feeling_widget.dart';
 import '../../widgets/get_image.dart';
 import '../../widgets/save_dialog.dart';
 
-class FaceCreate extends StatefulWidget {
-  static const String screenName = "FaceCreate";
+class FaceUpdate extends StatefulWidget {
+  Post post;
+  FaceUpdate(this.post);
+
+  static const String screenName = "FaceUpdate";
   static const int postType = 1;
 
   @override
-  State<FaceCreate> createState() => _FaceCreateState();
+  State<FaceUpdate> createState() => _FaceUpdateState();
 }
 
-class _FaceCreateState extends State<FaceCreate> {
+class _FaceUpdateState extends State<FaceUpdate> {
   TextEditingController contentController = TextEditingController();
   String? selectedFeeling;
 
@@ -27,23 +29,21 @@ class _FaceCreateState extends State<FaceCreate> {
 
   @override
   Widget build(BuildContext context) {
+    Post post = widget.post;
+    contentController.text = post.content!;
+    selectedFeeling = post.feeling;
+    selectedImage = post.image;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xff4267B2),
-        title: Text("NFPost".tr()),
+        title: Text("UFPost".tr()),
         actions: [
           IconButton(
               onPressed: () async {
-                Post post = Post(
-                    type: FaceCreate.postType,
-                    content: contentController.text,
-                    isEdited: false,
-                    creationTime: DateTime.now(),
-                    feeling: selectedFeeling,
-                    image: selectedImage);
+                post.isEdited = true;
 
-                await showDialog(
+                post = await showDialog(
                     context: context,
                     builder: (context) => showSaveAlert(post, context));
               },

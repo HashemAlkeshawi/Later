@@ -3,8 +3,11 @@
 "Posts":"Posts",
 "DueSoonPosts" : "Due soon posts",
 "NFPost":"New post",
+"UFPost":"Edite post",
 "NIPost":"New post",
+"UIPost":"Edite post",
 "NTPost":"New Tweet",
+"UTPost":"Edite Tweet",
 "Photo" : "Photo",
 "Feeling" : "Feeling",
 "FCH" : "What's in your mind?",
@@ -41,6 +44,8 @@
 "Facebook" : "Facebook",
 "Instagram" : "Instagram",
 "Twitter" : "Twitter",
-"All Posts" : "All Posts"
+"All Posts" : "All Posts",
+"Delete" : "Delete",
+"Edite" : "Edite"
 
 }

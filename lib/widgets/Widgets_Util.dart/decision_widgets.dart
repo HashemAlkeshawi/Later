@@ -3,9 +3,38 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../Data/classes/post.dart';
 import 'AppRouter.dart';
+
+imageSource(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(ImageSource.camera);
+            },
+            child: Text("Camera"),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop(ImageSource.gallery);
+            },
+            child: const Text("gallery "),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
 ifEmptyPosts(int count, int type) {
   Widget? widget;
@@ -13,7 +42,7 @@ ifEmptyPosts(int count, int type) {
       ? widget = Text('$count')
       : widget = InkWell(
           onTap: () {
-            AppRouter.navigateToWidget(Post.WidgetByTypeToCreate(type));
+            AppRouter.navigateToWidget(Post.widgetByTypeToCreate(type));
           },
           child: const Icon(Icons.add,
               color: Color.fromARGB(255, 0, 0, 0), size: 22),
@@ -22,25 +51,26 @@ ifEmptyPosts(int count, int type) {
   return widget;
 }
 
-postSummaryImage(File image, int type) {
-  print('this is the image ${image.toString()}');
+postSummaryImage(Post post) {
   Widget widget;
-  image.path != ''
+  post.image!.path != ''
       ? widget = Image.file(
-          image,
+          post.image!,
         )
-      : widget = selectImageByType(type);
+      : widget = selectImageByType(post);
   return widget;
 }
 
-selectImageByType(int type) {
-  switch (type) {
+selectImageByType(Post post) {
+  switch (post.type) {
     case 1:
       return Image.asset('assets/images/facebook.png');
     case 2:
       return Image.asset('assets/images/instagram.png');
     case 3:
-      return Image.asset('assets/images/twitter.png');
+      return post.isEdited ?? false
+          ? Image.asset('assets/images/twitter_edited.png')
+          : Image.asset('assets/images/twitter.png');
   }
 }
 

@@ -104,4 +104,9 @@ class postsProvider extends ChangeNotifier {
     await DbHelper.db.insertNewPost(post);
     selectAllPosts();
   }
+
+  updateOnePost(Post post) async {
+    await DbHelper.db.updateOnePost(post);
+    selectAllPosts();
+  }
 }
