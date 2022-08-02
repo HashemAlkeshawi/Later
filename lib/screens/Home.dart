@@ -198,23 +198,30 @@ class _HomeState extends State<Home> {
                 // color: Colors.red,
                 margin: EdgeInsets.only(top: 8.h),
                 height: 375.h,
-                child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: Provider.of<postsProvider>(context)
+                child: Provider.of<postsProvider>(context)
                         .postsDueSoon!
-                        .length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      Post post = Provider.of<postsProvider>(context)
-                          .postsDueSoon![index];
-                      return InkWell(
-                          onTap: () {
-                            print(post.content ?? "nothing");
-                            AppRouter.navigateToWidget(Post.WidgetByType(post));
-                          },
-                          child:
-                              postSummary(post: post, topBorderRadios: false));
-                    }),
+                        .isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: Provider.of<postsProvider>(context)
+                            .postsDueSoon!
+                            .length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          Post post = Provider.of<postsProvider>(context)
+                              .postsDueSoon![index];
+                          return InkWell(
+                              onTap: () {
+                                print(post.content ?? "nothing");
+                                AppRouter.navigateToWidget(
+                                    Post.WidgetByType(post));
+                              },
+                              child: postSummary(
+                                  post: post, topBorderRadios: false));
+                        })
+                    : Center(
+                        child: Image.asset('assets/images/duesoonempty.png'),
+                      ),
               ),
             ],
           )),

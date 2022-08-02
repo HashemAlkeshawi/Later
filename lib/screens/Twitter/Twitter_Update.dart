@@ -24,11 +24,15 @@ class _TwitterUpdateState extends State<TwitterUpdate> {
   TextEditingController contentController = TextEditingController();
 
   File? selectedImage;
+  bool? isTimed;
+  DateTime? dueOn;
   int? oldPostId;
   void initState() {
     oldPostId = widget.post.id;
     Post post = widget.post;
     contentController.text = post.content!;
+    isTimed = post.isTimed;
+    dueOn = post.dueOn;
     selectedImage = post.image;
   }
 
@@ -64,7 +68,9 @@ class _TwitterUpdateState extends State<TwitterUpdate> {
               ),
             ),
             Container(
-              child: selectImage(selectedImage),
+              child: selectedImage!.path != ''
+                  ? selectImage(selectedImage)
+                  : const SizedBox(),
             ),
           ],
         ),
@@ -97,6 +103,8 @@ class _TwitterUpdateState extends State<TwitterUpdate> {
                             type: TwitterUpdate.postType,
                             content: contentController.text,
                             isEdited: true,
+                            isTimed: isTimed!,
+                            dueOn: dueOn,
                             creationTime: DateTime.now(),
                             image: selectedImage);
 

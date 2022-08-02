@@ -26,7 +26,7 @@ selectImage(File? image) {
 
 instagramSelectImage(File? image) {
   Widget? widget;
-  image == null
+  image == null || image.path == ''
       ? widget = Container(
           decoration: BoxDecoration(
             border: Border.all(

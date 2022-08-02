@@ -24,6 +24,8 @@ class _FaceUpdateState extends State<FaceUpdate> {
   String? selectedFeeling;
 
   File? selectedImage;
+  DateTime? dueOn;
+  bool? isTimed;
   int? oldPostId;
   @override
   void initState() {
@@ -31,7 +33,9 @@ class _FaceUpdateState extends State<FaceUpdate> {
     Post post = widget.post;
     contentController.text = post.content!;
     selectedFeeling = post.feeling;
+    isTimed = post.isTimed;
     selectedImage = post.image;
+    dueOn = post.dueOn;
   }
 
   @override
@@ -49,6 +53,8 @@ class _FaceUpdateState extends State<FaceUpdate> {
                     content: contentController.text,
                     creationTime: DateTime.now(),
                     feeling: selectedFeeling,
+                    dueOn: dueOn,
+                    isTimed: isTimed!,
                     image: selectedImage,
                     isEdited: true);
 
@@ -84,7 +90,9 @@ class _FaceUpdateState extends State<FaceUpdate> {
                 ),
               ),
               Container(
-                child: selectImage(selectedImage),
+                child: selectedImage!.path != ''
+                    ? selectImage(selectedImage)
+                    : const SizedBox(),
               ),
             ],
           )),

@@ -84,74 +84,88 @@ class _PostsScreenState extends State<PostsScreen> {
                   Container(
                     height: screnHeight - 220.h,
                     padding: EdgeInsets.only(bottom: 60.h),
-                    child: ListView.builder(
-                      controller: ScrollController(keepScrollOffset: false),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        Post post = Provider.of<postsProvider>(context)
-                            .selectedList[index];
-                        return InkWell(
-                            onTap: () {
-                              print(post.content ?? "nothing");
-                              AppRouter.navigateToWidget(
-                                  Post.WidgetByType(post));
-                            },
-                            child: SwipeableTile.swipeToTrigger(
-                              color: Colors.white,
-                              swipeThreshold: 0.5,
-                              direction: SwipeDirection.horizontal,
-                              onSwiped: (direction) {
-                                if (direction == SwipeDirection.endToStart) {
-                                  Provider.of<postsProvider>(context,
-                                          listen: false)
-                                      .deleteOnePost(post.id!);
-                                  print('delete');
-                                } else {
-                                  print('edit');
-                                }
-                              },
-                              backgroundBuilder:
-                                  (context, direction, progress) {
-                                if (direction == SwipeDirection.endToStart) {
-                                  return Container(
-                                    padding: EdgeInsets.only(left: 260.w),
-                                    height: screnHeight - 210.h,
-                                    color: Colors.redAccent,
-                                    child: Icon(
-                                      Icons.delete,
-                                      color: Colors.white,
-                                      size: 80.r,
-                                    ),
-                                  );
-                                } else if (direction ==
-                                    SwipeDirection.startToEnd) {
-                                  return Container(
-                                    padding: EdgeInsets.only(right: 260.w),
-                                    height: screnHeight - 210.h,
-                                    color: Colors.greenAccent,
-                                    child: Icon(
-                                      Icons.edit,
-                                      color: Colors.white,
-                                      size: 80.r,
-                                    ),
-                                  );
-                                }
+                    child: Provider.of<postsProvider>(context)
+                            .postsDueSoon!
+                            .isNotEmpty
+                        ? ListView.builder(
+                            controller:
+                                ScrollController(keepScrollOffset: false),
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              Post post = Provider.of<postsProvider>(context)
+                                  .selectedList[index];
+                              return InkWell(
+                                  onTap: () {
+                                    print(post.content ?? "nothing");
+                                    AppRouter.navigateToWidget(
+                                        Post.WidgetByType(post));
+                                  },
+                                  child: SwipeableTile.swipeToTrigger(
+                                    color: Colors.white,
+                                    swipeThreshold: 0.5,
+                                    direction: SwipeDirection.horizontal,
+                                    onSwiped: (direction) {
+                                      if (direction ==
+                                          SwipeDirection.endToStart) {
+                                        Provider.of<postsProvider>(context,
+                                                listen: false)
+                                            .deleteOnePost(post.id!);
+                                        print('delete');
+                                      } else {
+                                        AppRouter.navigateToWidget(
+                                            Post.widgetByTypeToUpdate(post));
+                                        print('edit');
+                                      }
+                                    },
+                                    backgroundBuilder:
+                                        (context, direction, progress) {
+                                      if (direction ==
+                                          SwipeDirection.endToStart) {
+                                        return Container(
+                                          padding: EdgeInsets.only(left: 260.w),
+                                          height: screnHeight - 210.h,
+                                          color: Colors.redAccent,
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.white,
+                                            size: 80.r,
+                                          ),
+                                        );
+                                      } else if (direction ==
+                                          SwipeDirection.startToEnd) {
+                                        return Container(
+                                          padding:
+                                              EdgeInsets.only(right: 260.w),
+                                          height: screnHeight - 210.h,
+                                          color: Colors.greenAccent,
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.white,
+                                            size: 80.r,
+                                          ),
+                                        );
+                                      }
 
-                                return Container();
-                              },
-                              key: UniqueKey(),
-                              child: Container(
-                                  margin: EdgeInsets.only(
-                                      bottom: 20.h, left: 15.w, right: 15.w),
-                                  width: screenWidth,
-                                  child: postSummary(
-                                      post: post, topBorderRadios: true)),
-                            ));
-                      },
-                      itemCount: Provider.of<postsProvider>(context)
-                          .selectedList
-                          .length,
-                    ),
+                                      return Container();
+                                    },
+                                    key: UniqueKey(),
+                                    child: Container(
+                                        margin: EdgeInsets.only(
+                                            bottom: 20.h,
+                                            left: 15.w,
+                                            right: 15.w),
+                                        width: screenWidth,
+                                        child: postSummary(
+                                            post: post, topBorderRadios: true)),
+                                  ));
+                            },
+                            itemCount: Provider.of<postsProvider>(context)
+                                .selectedList
+                                .length,
+                          )
+                        : Center(
+                            child: Image.asset('assets/images/postsScreen.png'),
+                          ),
                   ),
                 ],
               ),

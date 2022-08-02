@@ -21,11 +21,15 @@ class _InstaUpdateState extends State<InstaUpdate> {
 
   File? selectedImage;
   int? oldPostId;
+  DateTime? dueOn;
+  bool? isTimed;
 
   void initState() {
     oldPostId = widget.post.id;
     Post post = widget.post;
     contentController.text = post.content!;
+    dueOn = post.dueOn;
+    isTimed = post.isTimed;
     selectedImage = post.image;
   }
 
@@ -48,6 +52,8 @@ class _InstaUpdateState extends State<InstaUpdate> {
                     type: InstaUpdate.postType,
                     content: contentController.text,
                     isEdited: true,
+                    dueOn: dueOn,
+                    isTimed: isTimed!,
                     creationTime: DateTime.now(),
                     image: selectedImage);
 
